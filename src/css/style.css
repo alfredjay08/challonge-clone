@@ -1,0 +1,256 @@
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+
+:root {
+  --player-bg: #58595e;
+  --player-lose: #83858b;
+  --player-win: #ff7f28;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+/*
+  3. Allow percentage-based heights in the application
+*/
+html,
+body {
+  height: 100%;
+}
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  6. Improve media defaults
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+  7. Remove built-in form typography styles
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+/*
+  8. Avoid text overflows
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+/*
+  9. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.tournament-bracket {
+  width: 950px;
+  display: flex;
+}
+
+.stage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bracket {
+  padding: 20px 50px 20px 10px;
+  position: relative;
+}
+
+.bracket::after {
+  content: "";
+  position: absolute;
+  height: calc(100% - 113px);
+  width: 4px;
+  background: #58595e;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 30px;
+}
+
+.bracket::before {
+  content: "";
+  position: absolute;
+  height: 4px;
+  width: 10px;
+  background: #58595e;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+}
+
+.bracket > .match:first-of-type {
+  margin-bottom: 50px;
+}
+
+.match {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  background: transparent;
+}
+
+.match::before {
+  content: attr(data-id);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: gray;
+  font-size: 0.9rem;
+  left: -20px;
+}
+
+.match::after {
+  content: " ";
+  position: absolute;
+  height: 4px;
+  width: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  top: 50%;
+  transform: translateY(-50%);
+  right: -20px;
+}
+
+.player {
+  display: flex;
+  overflow: hidden;
+  background: var(--player-bg);
+  cursor: pointer;
+}
+
+.player:first-of-type {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.player:last-of-type {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.player__icon,
+.player__name,
+.player__score {
+  transition: opacity 500ms ease-in;
+}
+
+.player__icon {
+  padding: 0.4rem 0.2rem 0.4rem 0.5rem;
+  background: var(--player-bg);
+}
+
+.player__icon-img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.player__name {
+  background: var(--player-bg);
+  padding: 0.4rem;
+  flex-grow: 1;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.player__score {
+  background: var(--player-lose);
+  padding: 0.4rem 0.8rem;
+}
+
+.player__score.winner {
+  background: var(--player-win);
+}
+
+.stage-semi .bracket > .match:first-of-type {
+  margin-bottom: 170px;
+}
+
+.stage-final .match {
+  margin-left: 10px;
+}
+
+.stage-final .match::after {
+  background: transparent;
+}
+
+.fade {
+  opacity: 0.4;
+}
+
+.player.hidden .player__name,
+.player.hidden .player__icon,
+.player.hidden .player__score {
+  opacity: 0;
+}
+
+.tilt {
+  /* transform: rotateY(90d) */
+  animation: tilt 500ms ease-in;
+}
+
+@keyframes tilt {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(360deg);
+  }
+}
+
+#btn--start {
+  position: absolute;
+  padding: 0.5rem 0.8rem;
+  top: 100px;
+  cursor: pointer;
+  background: crimson;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
