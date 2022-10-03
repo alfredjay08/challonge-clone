@@ -139,6 +139,21 @@ const getWinners = (match) => {
   return playerOne.score > playerTwo.score ? playerOne._id : playerTwo._id;
 };
 
+const generateBracketsMarkup = (matchesMarkup) => {
+  let markup = "";
+
+  for (let j = 0; j < matchesMarkup.length; j += 2) {
+    markup += `
+      <div class="bracket">
+        ${matchesMarkup[j]}
+        ${matchesMarkup[j + 1]}
+      </div>
+    `;
+  }
+
+  return markup;
+};
+
 const setupBrackets = () => {
   const stageLength = stage.length;
   let matchesMarkup, bracketMarkup;
@@ -147,16 +162,7 @@ const setupBrackets = () => {
     switch (i) {
       case 0:
         matchesMarkup = generateMatchesMarkup("quarter");
-        bracketMarkup = "";
-
-        for (let j = 0; j < matchesMarkup.length; j += 2) {
-          bracketMarkup += `
-            <div class="bracket">
-              ${matchesMarkup[j]}
-              ${matchesMarkup[j + 1]}
-            </div>
-          `;
-        }
+        bracketMarkup = generateBracketsMarkup(matchesMarkup);
 
         stage[i].innerHTML = bracketMarkup;
         break;
@@ -167,16 +173,7 @@ const setupBrackets = () => {
 
         updateMatches(quarterMatchWinners, "semi");
         matchesMarkup = generateMatchesMarkup("semi");
-        bracketMarkup = "";
-
-        for (let j = 0; j < matchesMarkup.length; j += 2) {
-          bracketMarkup += `
-            <div class="bracket">
-              ${matchesMarkup[j]}
-              ${matchesMarkup[j + 1]}
-            </div>
-          `;
-        }
+        bracketMarkup = generateBracketsMarkup(matchesMarkup);
 
         stage[i].innerHTML = bracketMarkup;
 
@@ -220,13 +217,14 @@ const setupBrackets = () => {
   });
 
   btnStart.addEventListener("click", () => {
-    let milliseconds = 500;
+    const delayMS = 500;
 
     [...playersElement].forEach((playerEl, index) => {
-      setTimeout(() => {
+      playerEl.style.animation = `tilt 500ms ${delayMS * index}ms ease-in`;
+
+      playerEl.addEventListener("animationend", () => {
         playerEl.classList.remove("hidden");
-        playerEl.classList.add("tilt");
-      }, milliseconds * index);
+      });
     });
   });
 };

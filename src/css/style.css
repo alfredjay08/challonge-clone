@@ -172,7 +172,7 @@ body {
 .player__icon,
 .player__name,
 .player__score {
-  transition: opacity 500ms ease-in;
+  transition: opacity 200ms ease-in;
 }
 
 .player__icon {
